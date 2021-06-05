@@ -1,0 +1,1801 @@
+MicroServices
+
+
+Micro services
+
+So these mini applications are our services
+Are what are technically called micro services
+
+
+
+Micro sever ices are way of breaking your application or service
+Down into stand alone independent applications
+
+That can be run on different hardwares ..or server instances.
+
+
+They all talk to each other
+Over REST api…together to provide the functionally
+Of your application
+ Or proudct
+
+
+
+
+Advantages
+——
+
+Deployment flexibility
+
+Technology flexibly..
+
+It doesn’t matter which languages they are written
+They talk to each other using REST
+
+You no longer required to use.. common language
+
+
+Can be scaled separately
+
+
+
+Disadvantages
+——
+Deployment/ architecture complexity
+
+How do you ideally split these into your application
+Into micro services…suppose you want to add new feature ..you need to add
+To your application .. if you need to make changes to ten different application
+Then again ..then it defeats the purpose
+
+Then you need to separate them well
+
+
+
+Service discovery
+
+How they discover each..other..
+On a single machine.. or monolithic
+We all know how services call each other
+
+But with micro services
+How do the services know .. which REST api
+End points to call.. which environment..
+
+Do you hard code these URLS or
+Do you have a process around
+..service discovery..
+
+
+
+
+
+
+
+
+Traditional application development
+
+When we need to write application
+We start with new code project
+And we would add functionality  into that project
+Need more functionality … add more code..
+So the size of the code base for any given application keeps
+Increasing over time
+
+
+So what’s starts as a small codebase might end up
+Into large complex code base over time
+
+
+And people realised this
+
+
+
+Modular application development
+
+Best practices were created to handle large projects
+Developers were recommended to break things into modules
+
+Instead of putting everything into single mess of a codebase
+
+Crete smaller modules
+
+Compose your application from these modules
+
+
+Small independent parts….that were focused on just doing
+Small amount of functionality … these modules were supposed to be
+
+Reusable .. so simple module could be added to another project
+To help another application
+
+Once you ‘ve created this way your application .. you are ready to
+Build this whole application and deploy this on the machine
+
+And runs your application
+
+
+
+
+….
+When you are coding your application .. you have all these modular constructs
+Right..nice fragmented ..organised pieces
+
+
+Pieces of the code that composed together to form your applicaiton
+
+
+
+
+
+
+But still what we do .. is composing them to form one application
+And when you build it deploy all those small pieces all gets smushed together
+Into one giant ball of distributable .. that is your final application
+And thats what you deploy to a machine
+
+
+…
+
+
+
+The type of the applications that we are talking about
+Complexity needs to be handled . Not just the coding side
+They also need to be handled at the runtime or execution
+Side of things.
+
+
+
+
+
+
+Web application have been growing in complexity
+
+
+
+Serach engines.
+Riding share apps
+File storage apps
+Large e commerce apps
+
+
+
+
+Single application was  called monolithic application
+Mono lithic architecture
+
+..mono ..means single
+Lithic means stone..
+
+
+
+
+Disadvantages of the mono lithic
+
+
+The bigger the deployment and more challenging.
+
+Difficult deploy big applications
+
+
+Lets you want to push new feature to your
+Big monolithic application alright
+
+
+
+Scalability
+———
+Online e commerce sites
+
+They have very unpredictable traffic spikes
+
+Right ..lets say there is a sale on some product
+
+People rush to the site like crazy
+And after the sale is over the traffic slows down
+
+
+Similarly during the holidays… there is a spike and there
+Is dip automatically
+
+
+
+So these days we have elastic servers
+..so when traffic spikes up
+The number application server instances are increased
+
+But when the traffic goes back to normal
+
+The extra servers are retired
+
+
+
+But imagine an entire e commerce  website
+Deployed as a single monolithic
+…
+
+Shopping functionally
+Profile module
+Returs module
+Ads module
+
+
+Lot of other stuff
+
+
+
+Lets say there is traffic spike on the shopping pages.
+
+..
+
+And when the Server scales up…
+Notice that all the other functionalities should scale up as well
+
+Even though no body is using them
+
+They have to scale up .. because whole thing is just single
+Application
+
+
+
+
+
+
+So big e commerce site has to be a lot more money to create
+
+These duplicate instances .. the whole application
+Then only small portion of the app actually needs
+To be scaled up during the time of those spikes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Agenda
+
+Creating few micro services
+Having them communicate with each other
+
+
+
+Managing the complexities
+—
+
+Patterns … make micro services for well together
+Technologies …. Libraries and frameworks to solve common problems
+
+
+
+
+
+We created multiple micro services
+We had them communicate with each other
+Using rest template and web client
+With hard coded url’s  …. To avoid hardcoding url’s
+So we used concept of service discovery ..
+
+Create eureka server
+..and had all these micro services  register with eureka client
+
+By adding them to class path
+And we used the load balanced annotation  on rest template
+To leverage Eureka server with minimal code changes..
+
+We were able to get all this functionality by having client side load
+Balancing ..
+
+
+
+
+First Know history
+
+Why its come into existence
+
+What were the challenges with existing models
+
+What are the advantages with the new technology
+
+
+
+
+Movie catalog service
+		input : user id
+		output : movie list with details
+
+Movie info service
+		input : movie id
+                Output : movie details
+
+Rating Data service
+		input : user id
+		output : movie id and ratings
+
+
+
+Movie catalog service
+—
+We are gonna create controller over here
+Going to create rest resource
+
+
+
+—>
+Create a class MovieCatalogResource
+
+In the resource package
+
+
+Project > right click > new > src/main
+Create java class in the main
+
+
+
+How do we make this as rest?
+
+By adding @RestController
+
+
+
+Whenever you make a request , spring boot is gonna look at this
+And say, hey do you have any mapping for this
+
+
+—>
+CatalogItems
+
+We gonna need to create this class.
+This is going to be model
+
+Inside model package
+
+
+—>
+
+Here is our dummy api
+Which accepts the user id  and returns movie info
+
+
+—> we need to tell the spring boot to treat this as api
+Which is accessible at
+
+
+
+—>
+Use the RequestMapping annotation
+
+Hey spring boot, when somebody calls this url (/catalog)
+Then load up this resource
+
+
+And when someone calls.    /catalog/userId
+Then load this method
+
+
+And the user id needs to be passed as @PathVariable
+
+
+
+
+—>
+No matter whoever calls this
+Its gonna return Transformers
+
+
+
+
+http://localhost:8081/catalog/srinivas
+
+[{"name":"Transformers","desc":"Test","rating":4}]
+
+
+
+Till now we have built spring boot application
+
+
+
+
+
+
+2)
+
+Now switch to movie info service
+
+
+Select view as > package
+
+> create Java class  MovieResource
+
+Inside the resource package
+
+
+resource.MovieResource
+
+—> the class is going to be created under resource package
+
+
+public Movie getMovieInfo()
+
+—>
+Now create model class -> Movie
+
+
+
+
+
+—>
+If we gonna execute this … its gonna run into port issues
+
+Because earlier one user 8080
+
+/movies/movieId
+
+
+
+Its the common problem when you are developing micro services
+
+
+
+To solve this—> change the port in application.properties
+
+
+Select project View
+> src > main> resource > application.properties
+
+
+
+server.port=8081
+
+
+
+http://localhost:8082/movies/sree
+
+{"movieId":"sree","name":"Test name"}
+
+
+
+
+
+
+3)
+
+
+Create RatingsDataResource
+
+> create resource & model
+
+
+resource.RatingsDataResource
+
+
+
+
+
+http://localhost:8083/ratingsdata/sree
+
+{"movieId":"sree","rating":4}
+
+
+
+
+
+Right now we have separate services
+
+
+How to make call from movie catalog api to movie info service
+
+
+We have to call it programatically
+
+
+—> calling REST apis programatically
+
+-> using a REST client library
+
+-> spring boot comes with a client already in your class path - RestTemplate
+
+
+This is rest
+ All the things gets transferred over wire is text
+
+
+Rest template was used to make rest api calls
+
+But now its deprecated
+ Another way of doing is through web client
+
+
+Web client requires reactive programming.. in java
+
+Asynchronous
+Call the function whenever it is ready
+
+
+
+
+
+
+
+
+
+—>
+Using Rest Template
+
+Goto movie catalog service
+
+
+
+
+// get all rated moive ID's
+
+
+
+We are going to hard code the ratings part
+
+
+First get the rating Resource model into this
+
+Copy Rating
+
+Because we need model
+
+
+
+
+—> we are going to hard code this part
+
+Create list of Rating
+
+Here the communication happens through rest template
+
+
+What we are gonna get back is …strings
+We need objects to deal with data
+
+In java , when you need to deal with data.. you need objects..
+Objects of particular class
+
+So here we are creating a class , copied that is Rating
+
+
+
+
+We need to create hardcoded bunch of responses from first api
+Hardcoded responses from 2nd api
+To hardcoded we need classes
+
+
+
+Assume this is the response we got from the
+Rating data api
+
+
+
+Somebody come to us, for this user
+ Give me all the movies he watched and details
+First get the movies he watched
+
+First we have the movies
+Then we need to get the details
+
+For this .. we gonna need to make api call
+
+How we are going to make api call?
+Using rest template
+
+
+
+ratings.stream.
+
+We can use for loop or map
+
+For each rating
+We need replace rating with  catalog item
+
+
+
+
+
+
+First we need to create the instance of rest template
+Rest  template is utility object ,and
+Its gonna help me to make calls
+
+
+
+
+restTemplate.getForObject()
+
+Two args.
+First url going to call
+It could be any url, it gonna make a rest call to it
+When it gets back .. its sting right
+It also helps you to match that into a object
+
+If you know the payload of the response is
+
+You gonna provide the class which has same properties
+ And what this rest template is gonna do is  , populate those properties to it
+And its gonna give full formed object
+
+
+
+
+2nd argument is  movie information
+Pay load has 2 properties
+
+MovieId & name
+
+
+
+Its gonna take payload and return movie object
+
+
+
+
+Its perfectly ok to create copies of the class
+
+In monolithic we can manage
+
+
+
+
+For every movie that user watches
+
+We need to fetch the data
+
+
+
+For every rated movie , we need to take that movie id
+And we need to call the movie information with that movie id
+
+
+Movie id —> which is run time…
+
+So     /+ratings.getMovieId();
+
+
+
+
+
+
+
+For each iteration its gonna make a separate call
+
+And it gets the particular movie
+
+
+
+
+
+If we have to make ay
+
+If you are returning single object
+You have to block until you get that object
+And return it
+
+
+
+
+CatalogItems(movie.getName(), "Test", rating.getRating());
+
+				firt api                        2nd api
+
+
+
+
+
+
+When java marshal…
+
+Something that which not object to object
+
+We need to provide empty constructor
+
+
+Otherwise it gives errors related to constructor
+
+
+
+
+
+http://localhost:8081/catalog/srinivas
+
+[{"name":"Test name","desc":"Test","rating":4},{"name":"Test name","desc":"Test","rating":3}]
+
+
+
+
+
+
+Here everytime when getcatalog method called
+It creates Resttemplate instance
+
+To avoid that …
+
+
+
+How do you create single instance of any object
+In any spring application and have it shared across other multiple classes
+
+
+We create the bean
+
+Beans in spring by default …. Singleton
+
+
+
+
+Put this in a bean and
+Use dependency injection
+
+To …say..hey spring give me  that one instance
+
+
+
+To create a bean  use @bean
+
+
+In application
+
+
+
+What its gonna do is …
+
+Spring gonna execute this  method..whatever you written
+ Hey rest template maps to this one instance
+
+
+
+Anybody autowire rest template gonna get this one
+
+
+This method executes once
+
+
+
+
+@Bean
+public RestTemplate getRestTemplate(){
+         return new RestTemplate();
+}
+
+
+
+
+Any time we need to use it, use this way
+
+
+@Autowired
+Private Resttemplate restTemplate;
+
+
+@Autowired annotation basically telling the spring
+Somebody bean somewhere of type  of RestTemplate
+
+And inject that thing
+
+
+
+@autowired is basically is a consumer
+
+
+
+
+
+
+—> Using webclient
+
+
+First get the libraries into the class path
+
+
+
+
+WebClient.Builder builder = WebClient.builder();
+
+
+
+Make this as bean .. instead of creating  every time
+
+
+
+
+
+
+@Autowired
+private WebClient.Builder WebClientBuilder;
+
+
+
+Now we have instance of web client
+That we can re use
+No matter how many controllers we have
+
+No matter how many apis we are calling
+
+Just use the same builder
+
+
+
+
+
+Whatever the object you get convert it into object of that class
+
+bodyToMono()
+
+In reactive way of saying … you are getting object
+But not right a way
+You get some time in future
+
+Mono is like its like ..give you ..what you wanted to get
+Eventually gets what you want
+
+
+Thats how we do asynchronous
+
+
+
+Its gonna give asynchronous object
+
+
+
+
+http://localhost:8081/catalog/srinivas
+
+
+[{"name":"Test name","desc":"Test","rating":4},{"name":"Test name","desc":"Test","rating":3}]
+
+
+
+
+
+
+
+http://localhost:8083/ratingsdata/users/sree
+
+[{"movieId":"telugu","rating":3},{"movieId":"hindi","rating":2},{"movieId":"english","rating":5}]
+
+
+
+
+
+When you construct an api
+Which has top level know as an object
+
+Lets say you want to enhance the object itself
+Ok I’m gonna have may be add a field
+
+We can do that without breaking the consumers
+
+People don’t expect that field  to be there… they don’t care if you’re
+Passing an extra field back in the response.
+
+They’re just gonna ignore it
+People who need it ,can use  it now…
+
+
+
+
+Let’s say we’ve created this api
+
+Which is a list of movies that the user  has watched
+
+Then I also want to add a field , which says in the future
+Which is , This is the users full name
+
+Lets say we have enhance the API to do that now
+What do I have to do
+
+I cannot return the list anymore
+I have to convert it into object
+
+
+
+
+Anytime that you have to make that kind of
+Enhancement with
+
+
+
+Enhancement is not a particular object in the array but you
+Need something global
+You have to take the contract out from list to an object
+
+And guess what …all those people who are expecting a list
+Their code is going to break
+
+
+Because it’s not a list anymore
+
+
+
+Even if you had one property of that object be to a list
+Then what happens … you can add extra properties to it
+And then your API is still back but compatible right
+
+That’s the one of the reasons why I usually have an object
+Wrapper in my API response….
+Even if what I’m returning is just a list
+
+
+Something to keep in mind that
+Kind of ensures that your API is are backward compatible
+
+
+So thats why we would want to wrap this into an object
+Maybe create like  a rating user rating as an object
+
+And then just have one property which is a list
+That’ll do
+
+
+
+
+Here another reason why you want to have a list
+
+
+
+
+
+
+
+
+
+
+
+///
+http://localhost:8083/ratingsdata/users/sree
+
+{"userRating":[{"movieId":"telugu","rating":3},{"movieId":"hindi","rating":2},{"movieId":"english","rating":5}]}
+
+
+
+
+
+
+http://localhost:8081/catalog/sree
+Whitelabel Error Page
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+Sat Jun 05 11:08:47 IST 2021
+There was an unexpected error (type=Internal Server Error, status=500).
+
+
+Cannot construct Rating
+
+
+
+
+User  Rating have an empty constructor
+But Rating doesn’t have empty constructor
+
+
+
+
+
+
+
+Final output
+—————
+
+http://localhost:8081/catalog/telugu
+
+[{"name":"Test name","desc":"Test","rating":3},{"name":"Test name","desc":"Test","rating":2},{"name":"Test name","desc":"Test","rating":5}]
+
+
+
+http://localhost:8082/movies/telugu
+{"movieId":"telugu","name":"Test name"}
+
+
+http://localhost:8083/ratingsdata/users/sree
+
+{"userRating":[{"movieId":"telugu","rating":3},{"movieId":"hindi","rating":2},{"movieId":"english","rating":5}]}
+
+
+
+
+The above all is using synchronous
+
+
+
+To make it asynchronous use…
+Webclient
+
+
+
+
+—>actually restTemplate is thread safe
+
+One call is not gonna affect another call
+
+
+
+Rest template is doesn’t care
+What the implementation  at remote api is
+It could be spring or something else
+
+All it cares about as you get a JSON payload
+
+
+
+
+How do you handle security when communicating between micro service
+
+One way is using https calls
+
+Another way is  using Authentication
+
+Basic like you just put the credentials in the header
+Or it can be something a little more complicated
+But that’s how you do it
+
+
+
+
+
+
+Why hard coded URLs are bad?
+
+Changes require code updates
+
+Dynamic URLs in the cloud
+
+Load balancing
+
+Multiple environments
+
+
+
+
+
+
+
+
+
+
+
+Because of all this reasons we have service discovery
+
+
+
+
+Service discovery
+———————
+
+
+Its patten
+When you build micro services
+You need them to talk to each other
+How do they know who to talk to
+
+They discovered the target
+
+
+
+
+
+
+How do you do service discover?
+
+
+
+
+Let’s say we have one client, in our case Movie catalog service
+
+
+An there are other 3 services it needs. to consume
+One of those 3 needs consume
+
+How does it locate
+How can it discovers ?
+Minimum thing you need to enable
+The service discovery
+
+
+
+What would be the first step?
+
+
+You have to provide a layer of abstraction
+Something in between in charge of .. what those service ares
+
+
+This guy in the middle knows where the services are
+
+What that client does is.
+It call that guy and …says ok ..
+I’m looking for the service… give me the url
+And then you call the service
+
+
+
+Client —> Discover Service ——> service 1/ service 2/ service 3
+
+
+
+
+How does it discovers service?
+The server which provides the url
+
+
+
+
+
+The disadvantage is here is
+
+Rather than making direct call to the service..
+There is an additional step
+
+
+
+
+
+
+Client side service discovery
+———————————
+
+Alternative ..
+Do all this on the server side
+
+
+
+
+Spring cloud uses….  Client side discovery
+——————————————————————
+
+When you create an application using spring boot and spring cloud
+And then I want to use service discovery
+The libraries that facilitates service discovery will reside on the client
+
+
+
+
+
+
+
+
+Technology : Eureka
+———————
+
+Netflix OSS is one of the leaders in micro service libraries
+Made open source…that work well with spring boot
+
+
+
+
+
+Others are
+
+Eureka
+Ribbon
+Hysterix
+Zuul
+
+
+
+
+Spring has layers of abstraction
+Over technologies . That work well together
+
+
+
+
+
+
+
+—>
+
+Eureka server
+
+..the individual services are ..Eureka clients
+
+Eureka clients register with eureka server
+
+
+
+Eureka client is telling the eureka server
+
+Hey I’m here let me know if somebody needs me
+
+And eureka client can also talk to the eureka server if it needs something
+Like I need this service so
+
+
+
+
+
+
+Steps to making this
+———————
+
+Start up a Eureka server
+
+Have micro services register (publish ) using Eureka client
+
+Have micro services locate (consume) using eureka client
+
+
+
+
+To create a eureka server is to create spring boot application
+
+
+
+Spring boot comes with 2 dependencies
+
+
+1. Eureka server
+2.  Eureka discovery ( which is client)
+
+
+
+Whenever application you want as that eureka server
+..you use the eureka server dependency
+
+
+Whenever the application you want to do the discovery
+Or to publish and tell you eureka server …I’m here
+Then use eureka client dependency
+
+
+
+
+
+
+
+This is another spring boot application
+
+@EnableEurekaServer
+
+
+
+When you run by default
+You get jax b errors
+
+
+
+
+So add jax b libraries
+
+
+
+
+From java 9 onwards
+They depreciated ..
+If you want to use .. java , xml  functionality
+
+You have to add jax b ..
+
+
+
+By default it. Runs on the port.  8761
+
+
+
+
+http://localhost:8084
+
+
+Actually it comes with UI
+
+
+
+There are no clients registered with eureka
+We have micro services but they are not eureka clients
+
+We have to add the clients ..
+Then only those micro services have the functionality to tell
+The eureka server that they exist
+
+
+
+To fix the console errors
+You need to add
+
+
+server.port=8761
+eureka.client.register-with-eureka=false
+eureka.client.fetch-registry=false
+
+
+
+http://localhost:8761/
+
+
+
+
+Every eureka server is also a eureka client
+Okay it when it register
+When it runs.. not only does it provide registry
+
+It also tries to register with other Eureka  servers
+
+
+
+Not only you can have multiple instances of micro services
+
+You can have multiple instances of eureka servers
+
+
+They can register with each other
+If one server fails..other server can still provide  you
+The directory service
+
+
+
+
+
+—>
+
+We have added two properties because
+
+You are the only server
+Don’t try to find another eureka server
+
+Don’t fetch registry as well
+You are the only person who has the registry
+
+
+To prevent the bunch of errors showing up in the console
+
+
+
+
+
+
+
+
+
+
+
+—>
+Now we have server which is sitting there….to accept the requests
+
+We need to have our micro services make those requests
+
+Lets start with
+
+Movie info service
+
+
+
+Its not consuming anything but
+
+It just it has to publish that it exists to the eureka serve
+
+
+
+
+
+So do that by going to the pom.xml
+And then adding dependency to Eureka client
+
+So there is one dependency
+
+
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+
+
+Other thing we need to do is provide
+Spring could version as property
+
+
+
+<spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
+
+
+
+
+
+Errors
+——
+2021-06-05 13:00:16.408 ERROR 1842 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'configurationPropertiesBeans' defined in class path resource [org/springframework/cloud/autoconfigure/ConfigurationPropertiesRebinderAutoConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.cloud.context.properties.ConfigurationPropertiesBeans]: Factory method 'configurationPropertiesBeans' threw exception; nested exception is java.lang.NoClassDefFoundError: org/springframework/boot/context/properties/ConfigurationBeanFactoryMetadata
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:658) ~[spring-beans-5.3.7.jar:5.3.7]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:486) ~[spring-beans-5.3.7.jar:5.3.7]
+
+
+
+
+
+
+
+
+—>
+Change the sprig boot version … because of conflicts
+
+<version>2.3.3.RELEASE</version>
+
+
+
+
+
+
+
+
+
+
+Instances currently registered with Eureka
+Application	AMIs	Availability Zones	Status
+UNKNOWN	n/a (1)	(1)	UP (1) - 192.168.0.107:8082
+
+
+
+
+
+Change the name of  in applciation.properties
+
+
+
+
+spring.application.name=movie-info-service
+
+
+
+
+
+http://localhost:8761/
+
+
+Instances currently registered with Eureka
+Application	AMIs	Availability Zones	Status
+MOVIE-INFO-SERVICE	n/a (1)	(1)	UP (1) - 192.168.0.107:movie-info-service:8082
+
+
+
+
+
+How did the client find where the eureka server is ?
+How did it know where to register?
+
+
+
+
+
+Add the dependencies in
+Add in another micro services as well
+
+
+
+
+
+
+http://localhost:8761/
+
+
+Instances currently registered with Eureka
+Application	AMIs	Availability Zones	Status
+MOVIE-CATALOG-SERVICE	n/a (1)	(1)	UP (1) - 192.168.0.107:movie-catalog-service:8081
+MOVIE-INFO-SERVICE	n/a (1)	(1)	UP (1) - 192.168.0.107:movie-info-service:8082
+MOVIE-RATING-SERVICE	n/a (1)	(1)	UP (1) - 192.168.0.107:movie-rating-service:8083
+
+
+
+
+Even though we are not restarting server..
+Changes are still reflected there
+
+
+
+
+
+
+
+
+Now how to consume ?
+——————
+
+
+Hey Eureka server  give me the service
+
+..
+The consuming is happing in the movie catalog service
+
+
+
+
+The way to consume involves
+
+Is through  another annotation
+
+
+
+
+
+So use annotation
+
+
+@LoadBalacne
+
+It  does service discovery ..
+In a load balanced way
+
+
+
+Here basically we are telling the rest template
+….
+Don’t go to a service directly
+
+Whatever URL I’m giving you …
+Its not the actual url …
+
+The url that I’m giving you is basically a hint about what service
+
+
+You need to discover
+
+Thats what the annotation does
+
+
+
+
+By adding that annotation
+
+Rest template is going to look for hints about which service to call
+
+When you give it the URL
+
+
+
+@LoadBalanced
+public RestTemplate getRestTemplate(){
+         return new RestTemplate();
+}
+
+
+
+
+
+
+
+
+—>
+
+
+
+Now we are not going to give  url like
+
+
+Local host: /8083
+
+It has no hints , which service you need to call
+..
+
+Its gonna take and ask Eureka
+
+
+Eureka just knows these 3 names
+
+So this is the name you need to tell the rest template
+
+
+
+
+
+Before
+"http://localhost:8083/ratingsdata/users/
+
+After
+"http://ratings-data-service/ratingsdata/users/
+
+
+
+
+
+
+
+http://localhost:8081/catalog/english
+
+[{"name":"Test name","desc":"Test","rating":3},{"name":"Test name","desc":"Test","rating":2},{"name":"Test name","desc":"Test","rating":5}]
+
+
+http://localhost:8082/movies/english
+
+{"movieId":"english","name":"Test name"}
+
+
+
+
+http://localhost:8083/ratingsdata/users/sahi
+
+{"userRating":[{"movieId":"telugu","rating":3},{"movieId":"hindi","rating":2},{"movieId":"english","rating":5}]}
+
+
+
+
+
+
+
+
+What if we have multiple services ?
+
+Example   : 3 services 1
+
+
+Client —> can I get service 1 please?
+
+Discovery Server: —> sure here are 3 instances of service 1. Take a pick
+
+
+
+
+
+
+
+Java -Dserver.port=8201 -jar movie-info-service-0.0.1-SNAPSHOT.jar
+
+
+Java  -jar movie-info-service-0.0.1-SNAPSHOT.jar
+
+
+
+When you run the above…you are actually running the class with main method
+Inside it
+
+
+
+
+—> for running multiples instances of the same micro service…
+This way you can run one on IDE.. other on terminals with Different ports
+
+
+
+
+
+
+—>
+When the client makes a call to the service
+
+Give me all the instances..
+It gives 2 instances
+
+Client is load balancing on the client side
+
+Its happening on the client side
+
+
+
+
+
+
+Its all with one annotation
+
+@LoadBalanced
+
+You are telling the rest template …
+
+To do all those things with load balancing client side service discovery
+
+Everything happens automatically
+
+
+
+
+
+@Autowired
+private DiscoveryClient discoveryClient;
+
+
+
+Here is the instance of the discovery client class
+
+Spring manages , it creates an instance when the application loads
+
+
+
+// for advanced load balancing you can use that
+// selecting server instance
+// based on certain condition based on your application logic
+
+
+//we won’t recommend..rest template can handle automatically
+It unless you know really what you’re doing
+
+
+
+
+
+
+How fault tolerant work
+————
+
+What happens when server goes down
+
+
+
+
+Because the service starts up and it registers with
+Discovery service …
+And what’s to make sue that  the service hasn’t gone down
+
+
+Solution :
+———
+Send  “heart beats” to service registry
+
+
+
+What Eureka client does by default
+
+Eureka server has functionality by default…to see if
+Something doesn’t ping in a certain time
+
+There is a service interval
+
+If it hasn’t gotten a heart beat in a while
+
+It ends that .. it’s says
+
+If its’ down.. it removes it from the service registry
+
+
+
+Its not just one time discovery .. is what I’m saying ..
+It has to be a constant heart beat ..
+That also is managed by default with the Eureka
+
+
+
+
+
+What if the Discovery  service goes down?
+
+
+Thats where cache comes into place
+
+
+
+
+Client ..says can I get service 2 please ?
+
+
+Well I get an error from the discovery server ..
+It picks it up from the cache..
+
+
+Gain ..this is something the eureka client is doing
+You don’t have to do this
+
+
+
+
+You don’t have to write single line of code ..to handles these
+Fallback mechanisms ..
+It’s all happening automatically
+
